@@ -16,38 +16,25 @@ public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
 		// add our users for in memory authentication
-		
+
 		UserBuilder users = User.withDefaultPasswordEncoder();
-		
-		auth.inMemoryAuthentication()
-			.withUser(users.username("sai").password("test").roles("EMPLOYEE"))
-			.withUser(users.username("sai2").password("test123").roles("MANAGER"))
-			.withUser(users.username("sai3").password("test123").roles("ADMIN"));
+
+		auth.inMemoryAuthentication().withUser(users.username("sai").password("test").roles("EMPLOYEE", "ADMIN"))
+				.withUser(users.username("sai2").password("test123").roles("MANAGER"))
+				.withUser(users.username("sai3").password("test123").roles("ADMIN"));
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-	http.authorizeRequests()
-	.anyRequest().authenticated()
-	.and().formLogin().loginPage("/showMyLoginPage")
-	.loginProcessingUrl("/authenticateTheUser")
-	.permitAll()
-	.and()
-	.logout()
-	.permitAll()
-	;
-		
+		http.authorizeRequests()
+//	.anyRequest()
+//	.authenticated()
+				.antMatchers("/").hasRole("EMPLOYEE").antMatchers("/leaders/**").hasRole("MANAGER")
+				.antMatchers("/systems/**").hasRole("ADMIN").and().formLogin().loginPage("/showMyLoginPage")
+				.loginProcessingUrl("/authenticateTheUser").permitAll().and().logout().permitAll().and()
+				.exceptionHandling().accessDeniedPage("/access-denied");
+
 	}
-	
-	
-	
-	
-	
+
 }
-
-
-
-
-
-

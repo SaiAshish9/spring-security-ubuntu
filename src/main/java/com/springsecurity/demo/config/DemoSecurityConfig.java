@@ -20,7 +20,7 @@ public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
 		UserBuilder users = User.withDefaultPasswordEncoder();
 		
 		auth.inMemoryAuthentication()
-			.withUser(users.username("sai1").password("test123").roles("EMPLOYEE"))
+			.withUser(users.username("sai").password("test").roles("EMPLOYEE"))
 			.withUser(users.username("sai2").password("test123").roles("MANAGER"))
 			.withUser(users.username("sai3").password("test123").roles("ADMIN"));
 	}
@@ -32,7 +32,11 @@ public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
 	.anyRequest().authenticated()
 	.and().formLogin().loginPage("/showMyLoginPage")
 	.loginProcessingUrl("/authenticateTheUser")
-	.permitAll();
+	.permitAll()
+	.and()
+	.logout()
+	.permitAll()
+	;
 		
 	}
 	

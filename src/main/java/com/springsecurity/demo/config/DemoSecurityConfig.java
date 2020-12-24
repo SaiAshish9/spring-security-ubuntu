@@ -22,6 +22,8 @@ public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.inMemoryAuthentication().withUser(users.username("sai").password("test").roles("EMPLOYEE", "ADMIN"))
 				.withUser(users.username("sai2").password("test123").roles("MANAGER"))
 				.withUser(users.username("sai3").password("test123").roles("ADMIN"));
+	
+// database -> plain pass -> {noop}test bcrypt -> {bcrypt}$dfghjkl90kjhjghfdffgghjkljhgf....
 	}
 
 	@Override

@@ -24,6 +24,21 @@ public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
 			.withUser(users.username("sai2").password("test123").roles("MANAGER"))
 			.withUser(users.username("sai3").password("test123").roles("ADMIN"));
 	}
+
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+
+	http.authorizeRequests()
+	.anyRequest().authenticated()
+	.and().formLogin().loginPage("/showMyLoginPage")
+	.loginProcessingUrl("/authenticateTheUser")
+	.permitAll();
+		
+	}
+	
+	
+	
+	
 	
 }
 
